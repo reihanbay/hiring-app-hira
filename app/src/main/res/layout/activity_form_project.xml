@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".project.FormProjectActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="24dp">
+
+            <TextView
+                android:id="@+id/tv_header_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:text="@string/completed_data_project"
+                android:textAlignment="textStart"
+                android:textColor="#888888"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+                <ImageView
+                    android:id="@+id/img_project"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/et_rounded"
+                    android:elevation="5dp"
+                    android:src="@drawable/ava" />
+                <Button
+                    android:id="@+id/btn_upload"
+                    android:layout_width="120dp"
+                    android:layout_height="45dp"
+                    android:paddingHorizontal="16dp"
+                    android:elevation="5dp"
+                    android:text="Upload"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:background="@drawable/btn_primary"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_name_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Project Title"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_name_project"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="Input your project title..."
+                android:inputType="textPersonName"
+                android:paddingStart="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Description"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="Input description project"
+                android:inputType="textMultiLine"
+                android:paddingStart="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_deadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Deadline"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_deadline"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="Input deadline project"
+                android:inputType="date"
+                android:paddingStart="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="56dp"
+                android:background="@drawable/btn_primary"
+                android:text="@string/save"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

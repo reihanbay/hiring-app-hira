@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout
+        android:id="@+id/rl_portfolio"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="10dp"
+        android:elevation="5dp"
+        android:background="@drawable/ct_basic"
+        >
+        <ImageView
+            android:id="@+id/image_portfolio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ct_basic"/>
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        tools:context=".profile.ProfileFragment"
+        tools:openDrawer="end">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".profile.ProfileFragment">
+
+            <FrameLayout
+                android:id="@+id/fl_header"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/header_profile"
+                android:elevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/component_header" />
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fitsSystemWindows="true"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:elevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_scrollFlags="scroll|enterAlways" />
+
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_pict"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/ava" />
+
+                    <TextView
+                        android:id="@+id/tv_company_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/profile_pict"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="15dp"
+                        android:text="Unknown"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_company_sector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_company_name"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Empty"
+                        android:textColor="#fff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
+                    <ImageView
+                        android:id="@+id/ic_company_locate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_company_sector"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_locate" />
+
+                    <TextView
+                        android:id="@+id/tv_company_locate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_company_sector"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ic_company_locate"
+                        android:text="not tracked"
+                        android:textColor="#fff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_content_summary_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="24dp"
+                android:text="empty"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/fl_header" />
+
+            <LinearLayout
+                android:layout_marginTop="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_content_summary_company">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_instagram"
+                        app:tint="@color/cardview_dark_background" />
+
+                    <TextView
+                        android:id="@+id/tv_social_instagram"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Instagram"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_linkedin"
+                        app:tint="@color/cardview_dark_background" />
+
+                    <TextView
+                        android:id="@+id/tv_social_linkedin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LinkedIn"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_website"
+                        app:tint="@color/cardview_dark_background" />
+
+                    <TextView
+                        android:id="@+id/tv_social_website"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="website"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/drawer_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:fitsSystemWindows="true"
+                    app:headerLayout="@layout/nav_header_drawer"
+                    app:itemIconTint="@drawable/selector_bottom_nav"
+                    app:itemTextColor="@drawable/selector_bottom_nav"
+                    app:menu="@menu/nav_drawer_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".detailWorker.ProfileWorkerActivity">
+
+            <FrameLayout
+                android:id="@+id/fl_header"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/header_profile"
+                android:elevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/component_header" />
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fitsSystemWindows="true"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:elevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_scrollFlags="scroll|enterAlways" />
+
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_pict"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="56dp"
+                        android:src="@drawable/ava" />
+
+                    <Button
+                        android:id="@+id/btn_hire"
+                        android:layout_width="115dp"
+                        android:layout_height="45dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="56dp"
+                        android:background="@drawable/btn_white"
+                        android:drawableLeft="@drawable/ic_hire"
+                        android:paddingHorizontal="20dp"
+                        android:text="Hire Me"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/tv_username_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/profile_pict"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Unknown"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_title_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_username_profile"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="5dp"
+                        android:text="empty"
+                        android:textColor="#fff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
+                    <ImageView
+                        android:id="@+id/ic_locate_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_title_profile"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_locate" />
+
+                    <TextView
+                        android:id="@+id/tv_locate_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_title_profile"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ic_locate_profile"
+                        android:text="empty"
+                        android:textColor="#fff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/tv_talent_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_locate_profile"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="10dp"
+                        android:text="empty"
+                        android:textColor="#fff"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+                </RelativeLayout>
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/fl_header">
+
+                <TextView
+                    android:id="@+id/tv_summary_profile_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Summary"
+                    android:textAlignment="textStart"
+                    android:textColor="#888888"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_content_summary_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:text="empty"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_skill_profile_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Skill"
+                    android:textAlignment="textStart"
+                    android:textColor="#888888"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_content_skill_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:text="empty"
+                    android:textSize="16sp" />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="32dp"
+                    android:background="@drawable/et_rounded"
+                    android:elevation="6dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabBackground="@color/transparent"
+                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabIndicatorHeight="3dp"
+                        app:tabTextColor="@color/cardview_shadow_start_color" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

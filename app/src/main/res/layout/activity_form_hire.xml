@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".hire.FormHireActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="24dp">
+            <TextView
+                android:id="@+id/tv_header_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:text="@string/completed_data_hire"
+                android:textAlignment="textStart"
+                android:textColor="#888888"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_project_job"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="To Do"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_project_job"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="role in project"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_project_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Select Project"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/ct_company"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="24dp">
+                <Spinner
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/spinner_project" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Detail To Do"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="Input your Message"
+                android:inputType="textMultiLine"
+                android:paddingHorizontal="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Price"
+                android:textColor="#ABABAB"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_price"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/et_rounded"
+                android:elevation="2dp"
+                android:hint="Input price offer"
+                android:inputType="date"
+                android:paddingHorizontal="24dp"
+                android:textColor="#888888"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="56dp"
+                android:background="@drawable/btn_primary"
+                android:textAllCaps="false"
+                android:text="@string/hire"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
