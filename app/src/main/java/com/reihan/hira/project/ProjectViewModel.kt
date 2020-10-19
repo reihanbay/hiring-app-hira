@@ -1,5 +1,6 @@
 package com.reihan.hira.project
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.reihan.hira.utils.api.model.ProjectModel
@@ -10,9 +11,10 @@ import kotlin.coroutines.CoroutineContext
 
 class ProjectViewModel : ViewModel(), CoroutineScope {
     private lateinit var service: ProjectApiService
-    val toastLiveData = MutableLiveData<Boolean>()
+    val inSuccessLiveData = MutableLiveData<Boolean>()
     val listProjectLiveData = MutableLiveData<List<ProjectModel>>()
     val isProgressLiveData = MutableLiveData<Boolean>()
+
 
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.Main
@@ -29,23 +31,26 @@ class ProjectViewModel : ViewModel(), CoroutineScope {
                     service?.getAllProjectById(id)
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                    toastLiveData.value = false
                 }
             }
             if (response is GetProjectsResponse) {
-                val list = response?.data?.map {
-                    ProjectModel(
-                        it.idProject.orEmpty(),
-                        it.image.orEmpty(),
-                        it.name.orEmpty(),
-                        it.deadline.orEmpty()
-                    )
+            Log.d("Check res", response.toString())
+                if (response.data == null) {
+                    inSuccessLiveData.value = false
+                } else {
+                    val list = response?.data?.map {
+                        ProjectModel(
+                            it.idProject.orEmpty(),
+                            it.image.orEmpty(),
+                            it.name.orEmpty(),
+                            it.deadline.orEmpty()
+                        )
+                    }
+                    listProjectLiveData.value = list
+                    inSuccessLiveData.value = true
                 }
-                listProjectLiveData.value = list
-                toastLiveData.value = true
             } else {
-
-                toastLiveData.value = false
+                inSuccessLiveData.value = false
             }
             isProgressLiveData.value = false
         }

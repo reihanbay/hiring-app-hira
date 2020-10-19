@@ -35,6 +35,18 @@
             android:paddingTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/vector_empty"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/vect_empty_project"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_add_word"
             android:layout_width="wrap_content"

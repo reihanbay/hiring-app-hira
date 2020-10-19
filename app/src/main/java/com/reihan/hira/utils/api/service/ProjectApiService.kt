@@ -8,7 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ProjectApiService {
-    @GET("project/?limit=3")
+    @GET("project/")
     suspend fun getAllProjectById(@Query("search[idRecruiter]") search : String): GetProjectsResponse
 
     @GET("project/{id}")

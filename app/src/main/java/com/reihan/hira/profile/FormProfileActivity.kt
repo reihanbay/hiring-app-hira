@@ -1,4 +1,4 @@
-package com.reihan.hira.project
+package com.reihan.hira.profile
 
 import android.Manifest
 import android.app.Activity
@@ -6,20 +6,20 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import com.reihan.hira.BaseActivity
-import com.reihan.hira.R
-import com.reihan.hira.databinding.ActivityFormProjectBinding
-import com.reihan.hira.utils.api.service.ProjectApiService
-import com.reihan.hira.utils.api.APIClient
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.reihan.hira.BaseActivity
+import com.reihan.hira.R
+import com.reihan.hira.databinding.ActivityFormProfileBinding
+import com.reihan.hira.utils.api.APIClient
+import com.reihan.hira.utils.api.service.ProfileApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,31 +28,30 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-class FormProjectActivity : BaseActivity() {
-
-    private lateinit var binding: ActivityFormProjectBinding
-    private lateinit var viewModel: FormProjectViewModel
+class FormProfileActivity : BaseActivity() {
+    private lateinit var binding: ActivityFormProfileBinding
     private lateinit var sharedPref: PreferenceHelper
+    private lateinit var viewModel: FormProfileViewModel
     override fun layoutId(): Int {
-        return R.layout.activity_form_project
+        return R.layout.activity_form_profile
     }
 
     companion object {
-        const val IMAGE_PICK_CODE = 1000
-
-        const val PERMISSION_CODE = 1001
+        const val IMAGE_PICK_CODE = 1002
+        const val PERMISSION_CODE = 1003
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId())
-        viewModel = ViewModelProvider(this).get(FormProjectViewModel::class.java)
-        val service = APIClient.getApiClientToken(this)?.create(ProjectApiService::class.java)
+        viewModel = ViewModelProvider(this).get(FormProfileViewModel::class.java)
+        val service = APIClient.getApiClientToken(this)?.create(ProfileApiService::class.java)
+        binding.imgProfile.clipToOutline = true
         if (service != null) {
-            viewModel.setProjectService(service)
+            viewModel.setProfileService(service)
         }
 
-        binding.imgProject.clipToOutline = true
+        binding.imgProfile.clipToOutline = true
         binding.btnUpload.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -83,7 +82,7 @@ class FormProjectActivity : BaseActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pickImageFromGallery()
                 } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -93,8 +92,8 @@ class FormProjectActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         sharedPref = PreferenceHelper(this)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            binding.imgProject.setImageURI(data?.data)
-            binding.imgProject.clipToOutline = true
+            binding.imgProfile.setImageURI(data?.data)
+            binding.imgProfile.clipToOutline = true
             val filePath = getPath(this, data?.data)
             val file = File(filePath)
 
@@ -104,20 +103,35 @@ class FormProjectActivity : BaseActivity() {
             val reqFile: RequestBody? = inputStream?.readBytes()?.toRequestBody(mediaTypeImg)
 
             img = reqFile?.let { it ->
-                MultipartBody.Part.createFormData(
-                    "image", file.name,
-                    it
-                )
+                MultipartBody.Part.createFormData("image", file.name, it)
             }
             subscribeLiveData()
             binding.btnSave.setOnClickListener {
-                val name = createPartFromString(binding.etNameProject.text.toString())
-                val description = createPartFromString(binding.etDescription.text.toString())
-                val deadline = createPartFromString(binding.etDeadline.text.toString())
-                val idRecruiter =
-                    createPartFromString(sharedPref.getString(Constants.KEY_ID_RECRUITER).toString())
+                val name = createPartFromString(binding.etFullname.text.toString())
+                val company = createPartFromString(binding.etCompany.text.toString())
+                val position = createPartFromString(binding.etPosition.text.toString())
+                val sector = createPartFromString(binding.etSector.text.toString())
+                val city = createPartFromString(binding.etCity.text.toString())
+                val description = createPartFromString(binding.etSummary.text.toString())
+                val instagram = createPartFromString(binding.etInstagram.text.toString())
+                val linkedin = createPartFromString(binding.etLinkedin.text.toString())
+                val web = createPartFromString(binding.etWebsite.text.toString())
+                val idAccount =
+                    createPartFromString(sharedPref.getString(Constants.KEY_ID).toString())
                 if (img != null) {
-                    viewModel.postProjectApi(name, description, deadline, idRecruiter, img)
+                    viewModel.postProfileApi(
+                        name,
+                        company,
+                        position,
+                        sector,
+                        city,
+                        description,
+                        img,
+                        instagram,
+                        linkedin,
+                        web,
+                        idAccount
+                    )
                 }
             }
         }
@@ -126,8 +140,7 @@ class FormProjectActivity : BaseActivity() {
     fun getPath(context: Context, uri: Uri?): String {
         var result: String? = null
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor? =
-            uri?.let { context.contentResolver.query(it, proj, null, null, null) }
+        val cursor: Cursor? = uri?.let { context.contentResolver.query(it, proj, null, null, null) }
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 val column_index = cursor.getColumnIndexOrThrow(proj[0])
@@ -136,7 +149,7 @@ class FormProjectActivity : BaseActivity() {
             cursor.close()
         }
         if (result == null) {
-            result = "Not found"
+            result = "Not Found"
         }
         return result
     }
@@ -144,18 +157,24 @@ class FormProjectActivity : BaseActivity() {
     @NonNull
     private fun createPartFromString(json: String): RequestBody {
         val mediaType = "multipart/form-data".toMediaType()
-        return json
-            .toRequestBody(mediaType)
+        return json.toRequestBody(mediaType)
     }
 
     private fun subscribeLiveData() {
-        viewModel.finishedFormLiveData.observe(this@FormProjectActivity, Observer {
+        viewModel.finishedFormLiveData.observe(this@FormProfileActivity, Observer {
             if (it) {
-                Toast.makeText(this@FormProjectActivity, "Success Add Project", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FormProfileActivity, "Success Save Profile", Toast.LENGTH_SHORT)
+                    .show()
                 finish()
             } else {
-                Toast.makeText(this@FormProjectActivity, "Failed Add Project", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FormProfileActivity, "Failed Save Profile", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
+        viewModel.inputIdLiveData.observe(this@FormProfileActivity, Observer {
+            sharedPref.put(Constants.KEY_ID_RECRUITER, it.data.idRecruiter.toString())
+        })
     }
+
 }
+

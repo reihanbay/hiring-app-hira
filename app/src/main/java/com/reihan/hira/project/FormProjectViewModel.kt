@@ -1,6 +1,6 @@
 package com.reihan.hira.project
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.reihan.hira.utils.api.response.ProjectAddResponse
 import com.reihan.hira.utils.api.service.ProjectApiService
@@ -12,6 +12,7 @@ import kotlin.coroutines.CoroutineContext
 class FormProjectViewModel : ViewModel(), CoroutineScope {
 
     private lateinit var service: ProjectApiService
+    val finishedFormLiveData = MutableLiveData<Boolean>()
 
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.Main
@@ -32,9 +33,7 @@ class FormProjectViewModel : ViewModel(), CoroutineScope {
                     e.printStackTrace()
                 }
             }
-            Log.d("cek", (response is ProjectAddResponse).toString())
-            if (response is ProjectAddResponse) {
-            }
+            finishedFormLiveData.value = response is ProjectAddResponse
         }
     }
 }

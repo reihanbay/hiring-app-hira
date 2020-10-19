@@ -11,6 +11,7 @@ import com.reihan.hira.register.Sign_up
 import com.reihan.hira.databinding.ActivityLoginBinding
 import com.reihan.hira.utils.api.APIClient
 import com.reihan.hira.utils.api.service.AccountApiService
+import com.reihan.hira.utils.api.service.ProfileApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
 import kotlinx.coroutines.*
@@ -27,8 +28,9 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         binding = DataBindingUtil.setContentView(this, layoutId())
         sharedPref = PreferenceHelper(this)
         coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
-        val service = APIClient.getApiClientToken(this)?.create(AccountApiService::class.java)
-        presenter = LoginPresenter(coroutineScope, service)
+        val serviceAccount = APIClient.getApiClientToken(this)?.create(AccountApiService::class.java)
+        val serviceCheckData = APIClient.getApiClientToken(this)?.create(ProfileApiService::class.java)
+        presenter = LoginPresenter(coroutineScope, serviceAccount)
 
         initListener()
     }
@@ -38,7 +40,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
         if (sharedPref.getBoolean(Constants.PREF_IS_LOGIN)!!) {
             IntentStart<MainActivity>(this)
-            finish()
+            startActivity(start)
         } else {
             presenter?.bindToView(this)
         }
@@ -107,4 +109,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         IntentStart<MainActivity>(this@LoginActivity)
         startActivity(start)
     }
+
+
 }

@@ -68,15 +68,16 @@ class FormHireActivity : BaseActivity() {
     }
 
     private fun subscribeLiveData() {
-        viewModel.toastHireLiveData.observe(this, Observer {
+        viewModel.finishSessionHire.observe(this, Observer {
             if (it) {
                 Toast.makeText(this, "Waiting for Agreement", Toast.LENGTH_SHORT).show()
+                finish()
+                finish()
             } else {
                 val e = Throwable()
                 Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
             }
         })
-
         viewModel.spinnerLiveData.observe(this, Observer {
             var spinner = binding.spinnerProject
             spinner.adapter = ArrayAdapter<String>(

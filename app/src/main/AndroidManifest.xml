@@ -20,7 +20,7 @@
         <activity android:name=".detailWorker.ProfileWorkerActivity" />
         <activity android:name=".webview.WebPortoActivity" />
         <activity android:name=".AppIntroScreen" /> <!-- <fragment android:name=".ProfileScreen" /> -->
-        <activity android:name=".FormProfileActivity" />
+        <activity android:name=".profile.FormProfileActivity" />
         <activity android:name=".register.Sign_up" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".Splash">

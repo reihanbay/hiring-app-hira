@@ -53,7 +53,12 @@ class DetailProject : BaseActivity() {
             binding.tvTitleProject.text = it.data.nameProject.toString()
             binding.tvDeadlineProject.text = it.data.deadline.toString()
             binding.tvContentDescription.text = it.data.description.toString()
-            binding.tvContentWorker.text = it.data.worker
+            if (it.data.worker == null) {
+                binding.tvContentWorker.text
+            } else {
+                binding.tvContentWorker.text = it.data.worker
+            }
+
         })
         viewModel.toastLiveData.observe(this, Observer {
             if (it) {

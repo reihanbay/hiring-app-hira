@@ -46,7 +46,6 @@ class HomeFragment : Fragment() {
         binding.tvUsernameHeader.text = "Hai, ${sharedPref.getString(Constants.PREF_USERNAME)}!"
 
         val supportActionBar = (activity as AppCompatActivity).supportActionBar
-
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setHomeButtonEnabled(true)

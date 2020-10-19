@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.reihan.hira.FormProfileActivity
 import com.reihan.hira.R
 import com.reihan.hira.databinding.ActivityProfileScreenBinding
 import com.reihan.hira.databinding.ContainerDialogLogoutBinding
@@ -29,7 +28,6 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: ActivityProfileScreenBinding
     lateinit var drawer: DrawerLayout
     private lateinit var viewModel: ProfileViewModel
-    private lateinit var coroutineScope: CoroutineScope
     lateinit var sharedPref: PreferenceHelper
 
     override fun onCreateView(
@@ -147,7 +145,7 @@ class ProfileFragment : Fragment() {
 
     private fun subscribeLiveData() {
         viewModel.profileLiveData.observe(activity as AppCompatActivity, Observer {
-            if (it.data.idRecruiter != null) {
+            if (sharedPref.getString(Constants.KEY_ID_RECRUITER) != null) {
                 if (it.data.idAccount == sharedPref.getString(Constants.KEY_ID)) {
                     sharedPref.put(Constants.KEY_ID_RECRUITER, it.data.idRecruiter.toString())
                     Glide.with(this@ProfileFragment)

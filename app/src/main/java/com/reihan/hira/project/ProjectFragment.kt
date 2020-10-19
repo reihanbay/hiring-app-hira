@@ -53,7 +53,7 @@ class ProjectFragment : Fragment() {
             viewModel.setProjectService(service)
         }
 
-        val id = sharedPref.getString(Constants.KEY_ID).toString()
+        val id = sharedPref.getString(Constants.KEY_ID_RECRUITER).toString()
         viewModel.getProjectApi(id)
         subsribeLiveData()
         setupRecyclerView()
@@ -98,12 +98,14 @@ class ProjectFragment : Fragment() {
     }
 
     private fun subsribeLiveData() {
-        viewModel.toastLiveData.observe(activity as AppCompatActivity, Observer {
-            val e = Throwable()
+        viewModel.inSuccessLiveData.observe(activity as AppCompatActivity, Observer {
             if(it) {
-                Toast.makeText(activity, "success get data", Toast.LENGTH_SHORT).show()
+                binding.vectorEmpty.visibility = View.GONE
+                binding.recycleView.visibility = View.VISIBLE
+                Toast.makeText(activity, "Success get data", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(activity, "Error: $e", Toast.LENGTH_SHORT).show()
+                binding.vectorEmpty.visibility = View.VISIBLE
+                binding.recycleView.visibility = View.GONE
             }
         })
         viewModel.listProjectLiveData.observe(activity as AppCompatActivity, Observer {

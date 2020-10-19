@@ -1,5 +1,6 @@
 package com.reihan.hira.project
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.reihan.hira.utils.api.response.ProjectByIdResponse
@@ -30,6 +31,8 @@ class DetailProjectViewModel : ViewModel(), CoroutineScope {
                 }
             }
             if (response is ProjectByIdResponse) {
+                Log.d("Check Res", response.data.toString())
+
                 projectLiveData.value = response
                 toastLiveData.value = true
             } else {

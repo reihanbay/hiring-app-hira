@@ -14,8 +14,8 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
 
     private lateinit var servicePost: HireApiService
     private lateinit var serviceListProject: ProjectApiService
-    val toastHireLiveData = MutableLiveData<Boolean>()
     val spinnerLiveData = MutableLiveData<List<SpinnerProjectModel>>()
+    val finishSessionHire = MutableLiveData<Boolean>()
 
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.Main
@@ -38,7 +38,7 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
         launch {
             val response = withContext(Dispatchers.IO) {
                 try {
-                    servicePost?.postHire(
+                    servicePost.postHire(
                         projectJob,
                         message,
                         0,
@@ -50,11 +50,13 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     withContext(Dispatchers.Main) {
-                        toastHireLiveData.value = false
+                        finishSessionHire.value = false
                     }
                 }
             }
-            toastHireLiveData.value = response is HireResponse
+            if (response is HireResponse) {
+                finishSessionHire.value = response.success == true
+            }
         }
     }
 
@@ -62,7 +64,7 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
         launch {
             val response = withContext(Dispatchers.IO) {
                 try {
-                    serviceListProject?.getAllProjectById(uid)
+                    serviceListProject.getAllProjectById(uid)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
@@ -70,7 +72,7 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
             if (response is GetProjectsResponse) {
                 val list = response.data.map {
                     SpinnerProjectModel(it.idProject.orEmpty().toString(), it.name.orEmpty())
-                } ?: listOf()
+                }
 
                 spinnerLiveData.value = list
             }

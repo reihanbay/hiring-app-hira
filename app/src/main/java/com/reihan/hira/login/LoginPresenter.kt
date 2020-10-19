@@ -1,12 +1,14 @@
 package com.reihan.hira.login
 
+import com.reihan.hira.utils.api.response.CheckProfileResponse
 import com.reihan.hira.utils.api.response.LoginResponse
 import com.reihan.hira.utils.api.service.AccountApiService
+import com.reihan.hira.utils.api.service.ProfileApiService
 import kotlinx.coroutines.*
 
 class LoginPresenter(
     private val coroutineScope: CoroutineScope,
-    private val service: AccountApiService?
+    private val serviceAccount: AccountApiService?,
 ) : LoginContract.Presenter {
 
     private var view: LoginContract.View? = null
@@ -19,12 +21,13 @@ class LoginPresenter(
         this.view = null
     }
 
+
     override fun callLoginApi() {
         coroutineScope.launch {
             view?.showProgressBar()
             val response = withContext(Dispatchers.IO) {
                 try {
-                    service?.loginRequest(
+                    serviceAccount?.loginRequest(
                         view?.serviceParamaterEmail().toString(),
                         view?.serviceParamaterPassword().toString()
                     )
@@ -43,8 +46,7 @@ class LoginPresenter(
                         response.data.name.toString(),
                         true
                     )
-                    view?.toast("Login Success")
-                    view?.intentToHome()
+                    view?.toast(response.message.toString())
                 } else {
                     view?.toast(response.message.toString())
                 }
@@ -52,4 +54,5 @@ class LoginPresenter(
             }
         }
     }
+
 }
