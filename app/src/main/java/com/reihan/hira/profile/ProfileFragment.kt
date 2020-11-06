@@ -1,5 +1,6 @@
 package com.reihan.hira.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -18,6 +19,7 @@ import com.reihan.hira.databinding.ActivityProfileScreenBinding
 import com.reihan.hira.databinding.ContainerDialogLogoutBinding
 import com.reihan.hira.login.LoginActivity
 import com.reihan.hira.utils.api.APIClient
+import com.reihan.hira.utils.api.model.ProfileModel
 import com.reihan.hira.utils.api.service.ProfileApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
@@ -29,6 +31,7 @@ class ProfileFragment : Fragment() {
     lateinit var drawer: DrawerLayout
     private lateinit var viewModel: ProfileViewModel
     lateinit var sharedPref: PreferenceHelper
+    private lateinit var ProfileModel: ProfileModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,12 +53,26 @@ class ProfileFragment : Fragment() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setHomeButtonEnabled(true)
 
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        val service = APIClient.getApiClientToken(activity as AppCompatActivity)
+            ?.create(ProfileApiService::class.java)
+        if (service != null) {
+            viewModel.setProfileService(service)
+        }
+        val id = sharedPref.getString(Constants.KEY_ID)
+        if (id != null) {
+            viewModel.getProfileApi(id.toInt())
+        }
+        subscribeLiveData()
+
         drawer = binding.drawerLayout
         binding.drawerView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_help -> {
+                R.id.menu_edit -> {
                     val intent = Intent(activity, FormProfileActivity::class.java)
-                    startActivity(intent)
+                    intent.putExtra("dataProfile", ProfileModel)
+                    intent.putExtra("CODE_EDIT", "EDIT")
+                    startActivityForResult(intent, FormProfileActivity.CODE_RESULT)
                 }
                 R.id.menu_settings ->
                     Toast.makeText(
@@ -74,17 +91,7 @@ class ProfileFragment : Fragment() {
         }
         setHasOptionsMenu(true);
 
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val service = APIClient.getApiClientToken(activity as AppCompatActivity)
-            ?.create(ProfileApiService::class.java)
-        if (service != null) {
-            viewModel.setProfileService(service)
-        }
-        val id = sharedPref.getString(Constants.KEY_ID)
-        if (id != null) {
-            viewModel.getProfileApi(id.toInt())
-        }
-        subscribeLiveData()
+
         return binding.root
     }
 
@@ -142,14 +149,24 @@ class ProfileFragment : Fragment() {
         rootview.btnLogoutNo.setOnClickListener { dialog.dismiss() }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == FormProfileActivity.CODE_RESULT){
+            val id = sharedPref.getString(Constants.KEY_ID)
+            if (id != null) {
+                subscribeLiveData()
+                viewModel.getProfileApi(id.toInt())
+            }
+        }
+    }
 
     private fun subscribeLiveData() {
         viewModel.profileLiveData.observe(activity as AppCompatActivity, Observer {
-            if (sharedPref.getString(Constants.KEY_ID_RECRUITER) != null) {
+            if (it.data.idRecruiter != null) {
                 if (it.data.idAccount == sharedPref.getString(Constants.KEY_ID)) {
                     sharedPref.put(Constants.KEY_ID_RECRUITER, it.data.idRecruiter.toString())
                     Glide.with(this@ProfileFragment)
-                        .load("http://34.229.16.81:8080/uploads/${it.data.image.toString()}")
+                        .load("http://34.229.16.81:8008/uploads/${it.data.image.toString()}")
                         .placeholder(R.drawable.ava)
                         .into(binding.profilePict)
                     binding.tvCompanyName.text = it.data.company.toString()
@@ -159,6 +176,20 @@ class ProfileFragment : Fragment() {
                     binding.tvSocialInstagram.text = it.data.instagram.toString()
                     binding.tvSocialLinkedin.text = it.data.linkedin.toString()
                     binding.tvSocialWebsite.text = it.data.web.toString()
+                    ProfileModel = ProfileModel(
+                        it.data.idRecruiter,
+                        it.data.name.toString(),
+                        it.data.company.toString(),
+                        it.data.position.toString(),
+                        it.data.sector.toString(),
+                        it.data.city.toString(),
+                        it.data.description.toString(),
+                        it.data.image.toString(),
+                        it.data.instagram.toString(),
+                        it.data.linkedin.toString(),
+                        it.data.web.toString(),
+                        it.data.idAccount.toString()
+                    )
                 }
             } else {
                 val intent = Intent(activity as AppCompatActivity, FormProfileActivity::class.java)

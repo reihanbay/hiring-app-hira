@@ -19,7 +19,7 @@ class PortfolioAdapter(val items: ArrayList<PortfolioModel>, val listener: onCli
     }
 
     interface onClickViewListener {
-        fun onClick(id: Int)
+        fun onClick(data: PortfolioModel?)
     }
 
     class portfolioViewHolder(val binding: ItemPortfolioBinding) :
@@ -38,10 +38,12 @@ class PortfolioAdapter(val items: ArrayList<PortfolioModel>, val listener: onCli
 
     override fun onBindViewHolder(holder: portfolioViewHolder, position: Int) {
         val item = items[position]
-        Glide.with(holder.itemView).load("http://34.229.16.81:8080/uploads/${item.image}")
+        Glide.with(holder.itemView).load("http://34.229.16.81:8008/uploads/${item.image}")
             .placeholder(R.drawable.ava).into(holder.binding.imagePortfolio)
         holder.binding.rlPortfolio.setOnClickListener {
-            listener.onClick(item.idPortfolio)
+            listener.onClick(PortfolioModel(
+                item.idPortfolio, item.image, item.linkRepo, item.typePortfolio, item.namePortfolio, item.idWorker
+            ))
         }
     }
 

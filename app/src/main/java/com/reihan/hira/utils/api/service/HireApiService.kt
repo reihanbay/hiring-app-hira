@@ -11,7 +11,7 @@ interface HireApiService {
     suspend fun postHire(
         @Field("projectJob") projectJob: String?,
         @Field("message") message: String?,
-        @Field("statusConfirm") statusConfirm: Int?,
+        @Field("statusConfirm") statusConfirm: String?,
         @Field("dateConfirm") dateConfirm: String?,
         @Field("price") price: Int?,
         @Field("idWorker") idWorker: Int?,

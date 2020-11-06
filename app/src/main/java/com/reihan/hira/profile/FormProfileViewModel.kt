@@ -62,4 +62,48 @@ class FormProfileViewModel : ViewModel(), CoroutineScope {
             finishedFormLiveData.value = false
         }
     }
+
+    fun putProfileApi(
+        id: Int,
+        name: RequestBody,
+        company: RequestBody,
+        position: RequestBody,
+        sector: RequestBody,
+        city: RequestBody,
+        description: RequestBody,
+        image: MultipartBody.Part,
+        instagram: RequestBody,
+        linkedin: RequestBody,
+        web: RequestBody,
+        idAccount: RequestBody
+    ) {
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                try {
+                    service.putProfile(
+                        id,
+                        name,
+                        company,
+                        position,
+                        sector,
+                        city,
+                        description,
+                        image,
+                        instagram,
+                        linkedin,
+                        web,
+                        idAccount
+                    )
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+            }
+            if (response is ProfileResponse) {
+                if (response.success == true) {
+                    finishedFormLiveData.value = true
+                }
+            }
+            finishedFormLiveData.value = false
+        }
+    }
 }

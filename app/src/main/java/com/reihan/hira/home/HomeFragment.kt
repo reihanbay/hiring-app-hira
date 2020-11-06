@@ -21,6 +21,8 @@ import com.reihan.hira.utils.api.APIClient
 import com.reihan.hira.utils.api.service.WorkerApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
+import java.text.DateFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -43,6 +45,10 @@ class HomeFragment : Fragment() {
         sharedPref = PreferenceHelper(activity as AppCompatActivity)
         val toolbar = binding.toolbarMain
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
+
+        val c = Calendar.getInstance()
+        val current = DateFormat.getDateInstance(DateFormat.FULL).format(c.time)
+        binding.tvTimeNow.text = current
         binding.tvUsernameHeader.text = "Hai, ${sharedPref.getString(Constants.PREF_USERNAME)}!"
 
         val supportActionBar = (activity as AppCompatActivity).supportActionBar
@@ -57,6 +63,7 @@ class HomeFragment : Fragment() {
         if (service != null) {
             viewModel.setWorkerService(service)
         }
+
         viewModel.callWorkerApi()
         subsribeLiveData()
         setUpRecyclerView()
@@ -66,11 +73,10 @@ class HomeFragment : Fragment() {
     private fun setUpRecyclerView() {
         RecycleWorker =
             RecycleWorkerAdapter(arrayListOf(), object : RecycleWorkerAdapter.OnClickViewListener {
-                override fun OnClick(id: String) {
-                    Toast.makeText(activity, id, Toast.LENGTH_SHORT).show()
+                override fun OnClick(id: Int?) {
                     val intent =
                         Intent(activity as AppCompatActivity, ProfileWorkerActivity::class.java)
-                    intent.putExtra(ID_WORKER, id)
+                    intent.putExtra(ID_WORKER, id.toString())
                     startActivity(intent)
                 }
             })

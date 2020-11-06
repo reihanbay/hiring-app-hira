@@ -38,10 +38,12 @@ class HomeViewModel : ViewModel(), CoroutineScope {
             if (response is GetWorkerResponse) {
                 val list = response.data?.map {
                     WorkerModel(
-                        it.idWorker.orEmpty(),
+                        it.idWorker,
                         it.image.orEmpty(),
                         it.name.orEmpty(),
                         it.title.orEmpty(),
+                        it.statusJob.orEmpty(),
+                        it.city.orEmpty(),
                         it.skill.orEmpty()
                     )
                 }

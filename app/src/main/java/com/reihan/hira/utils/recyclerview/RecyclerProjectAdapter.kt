@@ -36,12 +36,38 @@ class RecyclerProjectAdapter(
     override fun onBindViewHolder(holder: projectViewHolder, position: Int) {
         val item = items[position]
         holder.binding.titleRecyclerViewProject.text = item.name
-        holder.binding.deadlineRecyclerViewProject.text = item.deadline
+
         holder.binding.imageRecyclerViewProject.clipToOutline = true
+
+        val time = item.deadline
+        var date = ""
+        for (a in 0..9) {
+            date += time[a]
+        }
+        val getDate = date.split("-")
+        val day = getDate[2]
+        val month = getDate[1]
+        val year = getDate[0]
+
+        when(month){
+            "01" -> "January"
+            "02" -> "February"
+            "03" -> "March"
+            "04" -> "April"
+            "05" -> "May"
+            "06" -> "June"
+            "07" -> "July"
+            "08" -> "Agustus"
+            "09" -> "September"
+            "10" -> "Oktober"
+            "11" -> "November"
+            "12" -> "Desember"
+        }
+        holder.binding.deadlineRecyclerViewProject.text = "$day-$month-$year"
         holder.binding.containerItemRecyclerProject.setOnClickListener {
             listener.OnClick(item.idProject)
         }
-        Glide.with(holder.itemView).load("http://34.229.16.81:8080/uploads/${item.image}")
+        Glide.with(holder.itemView).load("http://34.229.16.81:8008/uploads/${item.image}")
             .placeholder(R.drawable.ava).into(holder.binding.imageRecyclerViewProject)
 
     }

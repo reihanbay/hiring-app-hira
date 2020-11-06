@@ -1,5 +1,6 @@
 package com.reihan.hira.project
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -61,6 +62,23 @@ class ProjectFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        viewModel = ViewModelProvider(this).get(ProjectViewModel::class.java)
+        val service = APIClient.getApiClientToken(activity as AppCompatActivity)?.create(
+            ProjectApiService::class.java)
+        if (service != null) {
+            viewModel.setProjectService(service)
+        }
+        val id = sharedPref.getString(Constants.KEY_ID_RECRUITER).toString()
+
+        if (resultCode == Activity.RESULT_OK && requestCode == FormProjectActivity.CODE_RESULT || requestCode == DetailProject.CODE_DETAIL){
+            viewModel.getProjectApi(id)
+            subsribeLiveData()
+            setupRecyclerView()
+        }
+
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_project, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -86,12 +104,12 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(activity, id, Toast.LENGTH_SHORT).show()
                 val intent = Intent(activity as AppCompatActivity, DetailProject:: class.java)
                 intent.putExtra(ID_PROJECT, id)
-                startActivity(intent)
+                startActivityForResult(intent, DetailProject.CODE_DETAIL)
             }
         })
         binding.btnAddWord.setOnClickListener {
             val intent = Intent(activity as AppCompatActivity, FormProjectActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, FormProjectActivity.CODE_RESULT)
         }
         binding.recycleView.adapter = RecyclerProject
         binding.recycleView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

@@ -34,7 +34,6 @@ class ProjectViewModel : ViewModel(), CoroutineScope {
                 }
             }
             if (response is GetProjectsResponse) {
-            Log.d("Check res", response.toString())
                 if (response.data == null) {
                     inSuccessLiveData.value = false
                 } else {
@@ -43,7 +42,8 @@ class ProjectViewModel : ViewModel(), CoroutineScope {
                             it.idProject.orEmpty(),
                             it.image.orEmpty(),
                             it.name.orEmpty(),
-                            it.deadline.orEmpty()
+                            it.deadline.orEmpty(),
+                        it.description.orEmpty()
                         )
                     }
                     listProjectLiveData.value = list

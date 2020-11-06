@@ -42,4 +42,18 @@ class DetailProjectViewModel : ViewModel(), CoroutineScope {
         }
     }
 
+    fun deleteProjectApi(id: Int) {
+        launch {
+            isProgressLiveData.value = true
+            val response = withContext(Job() + Dispatchers.IO) {
+                try {
+                    service?.deleteProject(id)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+            }
+            isProgressLiveData.value = false
+        }
+    }
+
 }

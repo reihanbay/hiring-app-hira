@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.reihan.hira.detailWorker.ProfileWorkerActivity
 import com.reihan.hira.R
 import com.reihan.hira.databinding.FragmentSearchBinding
@@ -30,6 +33,7 @@ class SearchFragment : Fragment() {
     private lateinit var RecycleWorker: RecycleWorkerAdapter
     private lateinit var viewModel: SearchViewModel
     private var list : List<WorkerModel> = listOf()
+    lateinit var sv: SearchView
 
 
     override fun onCreateView(
@@ -54,7 +58,10 @@ class SearchFragment : Fragment() {
         if (service != null) {
             viewModel.setWorkerService(service)
         }
-        viewModel.callWorkerApi()
+        viewModel.callWorkerApi("", "nameWorker", "asc")
+        binding.btnFilter.setOnClickListener {
+            dialogFilter()
+        }
         subsribeLiveData()
 
         setupRecyclerView()
@@ -64,10 +71,9 @@ class SearchFragment : Fragment() {
 
     private fun setupRecyclerView( ) {
         RecycleWorker = RecycleWorkerAdapter(arrayListOf(), object: RecycleWorkerAdapter.OnClickViewListener{
-            override fun OnClick(id: String) {
-                Toast.makeText(activity, id , Toast.LENGTH_SHORT).show()
+            override fun OnClick(id: Int?) {
                 val intent = Intent(activity as AppCompatActivity, ProfileWorkerActivity:: class.java)
-                intent.putExtra(HomeFragment.ID_WORKER, id)
+                intent.putExtra(HomeFragment.ID_WORKER, id.toString())
                 startActivity(intent)
             }
         })
@@ -92,7 +98,66 @@ class SearchFragment : Fragment() {
 
         viewModel.workerLiveData.observe(activity as AppCompatActivity, Observer {
             (binding.rvSearch.adapter as RecycleWorkerAdapter).addList(it)
+
+            sv = binding.svSearch
+
+            sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    var result: ArrayList<WorkerModel> = ArrayList()
+                    for (find in it) {
+                        if (find.name.contains(query) || find.title.contains(query) || find.city.contains(query) || find.status.contains(query) || find.skill.contains(query)) {
+                            result.add(find)
+                        }
+                    }
+                    (binding.rvSearch.adapter as RecycleWorkerAdapter).addList(result)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    var result: ArrayList<WorkerModel> = ArrayList()
+                    for (find in it) {
+                        if (find.name.contains(newText) || find.title.contains(newText) || find.city.contains(newText) || find.status.contains(newText) || find.skill.contains(newText)) {
+                            result.add(find)
+                        }
+                    }
+                    (binding.rvSearch.adapter as RecycleWorkerAdapter).addList(result)
+                    return false
+                }
+            })
         })
+    }
+
+    private fun dialogFilter(){
+        val singleItems = arrayOf("Filter Berdasar Nama", "Filter Berdasar Skill", "Filter Berdasar Lokasi", "Filter Berdasar Freelance", "Filter Berdasar Fulltime")
+        AlertDialog.Builder(activity as AppCompatActivity)
+            // Single-choice items (initialized with checked item)
+            .setCancelable(true)
+            .setItems(singleItems) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        viewModel.callWorkerApi("","nameWorker", "asc")
+                        dialog.dismiss()
+                    }
+                    1 -> {
+                        viewModel.callWorkerApi("","skill", "asc")
+                        dialog.dismiss()
+                    }
+                    2 -> {
+                        viewModel.callWorkerApi("","city", "asc")
+                        dialog.dismiss()
+                    }
+                    3 -> {
+                        viewModel.callWorkerApi("freelance","nameWorker", "asc")
+                        dialog.dismiss()
+                    }
+                    4 -> {
+                        viewModel.callWorkerApi("full","nameWorker", "asc")
+                        dialog.dismiss()
+                    }
+                }
+            }
+            .create()
+            .show()
     }
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="48dp"
-            android:src="@drawable/ic_logo" />
+            android:src="@drawable/ic_logo_splash"
+            app:tint="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/et_email"
@@ -91,7 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginVertical="56dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="28dp"
             android:background="@drawable/btn_primary"
             android:text="@string/log_in"
             android:textAllCaps="false"
@@ -108,9 +111,8 @@
             <TextView
                 android:id="@+id/tv_dont_have_account"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/tv_create"
-                android:gravity="bottom"
                 android:text="@string/dont_have"
                 android:textColor="#888888"
                 android:textSize="14sp"
@@ -120,9 +122,8 @@
                 android:id="@+id/tv_create"
                 android:layout_marginHorizontal="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:gravity="bottom"
                 android:text="@string/create"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"

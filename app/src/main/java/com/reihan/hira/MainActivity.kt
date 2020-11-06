@@ -18,12 +18,17 @@ import com.reihan.hira.utils.api.APIClient
 import com.reihan.hira.utils.api.service.ProfileApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var sharedPref : PreferenceHelper
+    private lateinit var coroutineScope: CoroutineScope
 
     override fun layoutId(): Int {
         return R.layout.activity_main
@@ -72,38 +77,13 @@ class MainActivity : BaseActivity() {
         sharedPref = PreferenceHelper(this)
         subscribeLiveData()
         sharedPref.getString(Constants.KEY_ID)?.toInt()?.let { viewModel.checkDataApi(it) }
-        Toast.makeText(this, "Onstart()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "Onstart()")
     }
 
-    override fun onStop() {
-        super.onStop()
-        Toast.makeText(this, "OnStop()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "OnStop()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(this, "OnResume()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "OnResume()")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Toast.makeText(this, "OnRestart()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "OnRestart()")
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "OnDestroy()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "OnDestroy()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Toast.makeText(this, "OnPause()", Toast.LENGTH_LONG).show()
-        Log.d("LifecycleMainActivity", "OnPause()")
+        coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
+        coroutineScope.cancel()
     }
 
     private fun subscribeLiveData() {

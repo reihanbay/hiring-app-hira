@@ -6,6 +6,11 @@
     <color name="transparentBlack">#48000000</color>
     <color name="transparent">#00000000</color>
     <color name="grey">#C0C0C0</color>
-    <color name="white">#ffffff</color>
     <color name="divider">#e6e6e6</color>
+    <color name="black_gray2">#1F2A36</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background_gray">#F6F7F8</color>
+    <color name="gray_1">#858D96</color>
+    <color name="orange_primary">#FBB017</color>
+    <color name="gray_2">#9EA0A5</color>
 </resources>

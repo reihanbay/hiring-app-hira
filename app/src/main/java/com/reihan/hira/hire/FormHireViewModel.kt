@@ -15,6 +15,7 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
     private lateinit var servicePost: HireApiService
     private lateinit var serviceListProject: ProjectApiService
     val spinnerLiveData = MutableLiveData<List<SpinnerProjectModel>>()
+    val isSuccessSpinnerLiveData = MutableLiveData<Boolean>()
     val finishSessionHire = MutableLiveData<Boolean>()
 
     override val coroutineContext: CoroutineContext
@@ -41,8 +42,8 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
                     servicePost.postHire(
                         projectJob,
                         message,
-                        0,
-                        "2020-12-12",
+                        "delayed",
+                        "0000-00-00",
                         price,
                         idWorker,
                         idProject
@@ -70,11 +71,15 @@ class FormHireViewModel : ViewModel(), CoroutineScope {
                 }
             }
             if (response is GetProjectsResponse) {
-                val list = response.data.map {
-                    SpinnerProjectModel(it.idProject.orEmpty().toString(), it.name.orEmpty())
+                if (response.success == false) {
+                    isSuccessSpinnerLiveData.value = false
+                } else {
+                    val list = response.data.map {
+                        SpinnerProjectModel(it.idProject.orEmpty().toString(), it.name.orEmpty())
+                    }
+                    spinnerLiveData.value = list
                 }
 
-                spinnerLiveData.value = list
             }
         }
     }

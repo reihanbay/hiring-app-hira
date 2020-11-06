@@ -36,4 +36,20 @@ class FormProjectViewModel : ViewModel(), CoroutineScope {
             finishedFormLiveData.value = response is ProjectAddResponse
         }
     }
+
+    fun putProjectApi(
+        idProject: Int?, name: RequestBody, description: RequestBody, deadline: RequestBody,
+        idRecruiter: RequestBody, image: MultipartBody.Part
+    ) {
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                try {
+                    service.putProject(idProject, name, description, deadline, idRecruiter, image)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+            }
+            finishedFormLiveData.value = response is ProjectAddResponse
+        }
+    }
 }

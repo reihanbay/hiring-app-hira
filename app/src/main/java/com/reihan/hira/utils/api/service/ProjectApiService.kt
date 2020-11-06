@@ -24,4 +24,20 @@ interface ProjectApiService {
         @Part image: MultipartBody.Part
     ): ProjectAddResponse
 
+    @Multipart
+    @PUT("project/{id}")
+    suspend fun putProject(
+        @Path("id") idProject : Int?,
+        @Part("nameProject") projectName: RequestBody,
+        @Part("description") projectDesc: RequestBody,
+        @Part("deadline") projectDeadline: RequestBody,
+        @Part("idRecruiter") projectRecruiter: RequestBody,
+        @Part image: MultipartBody.Part
+    ): ProjectAddResponse
+
+    @DELETE("project/{id}")
+    suspend fun deleteProject(
+        @Path("id") idProject : Int?
+    ): ProjectAddResponse
+
 }

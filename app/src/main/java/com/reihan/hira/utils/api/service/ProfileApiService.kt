@@ -23,6 +23,23 @@ interface ProfileApiService {
         @Part("idAccount") idAccount: RequestBody,
     ): ProfileResponse
 
+    @Multipart
+    @PUT("recruiter/{id}")
+    suspend fun putProfile(
+        @Path("id") idRecruiter: Int,
+        @Part("nameRecruiter") name: RequestBody,
+        @Part("nameCompany") company: RequestBody,
+        @Part("position") position: RequestBody,
+        @Part("sectorCompany") sector: RequestBody,
+        @Part("city") city: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part image: MultipartBody.Part,
+        @Part("instagram") instagram: RequestBody,
+        @Part("linkedin") linkedin: RequestBody,
+        @Part("website") web: RequestBody,
+        @Part("idAccount") idAccount: RequestBody,
+    ): ProfileResponse
+
     @GET("recruiter/{id}")
     suspend fun getProfileById(@Path("id") id: Int?): ProfileResponse
 

@@ -21,33 +21,29 @@ class SearchViewModel : ViewModel(), CoroutineScope {
         this.service = service
     }
 
-    fun callWorkerApi() {
+    fun callWorkerApi(search: String?, sort: String?, order: String?) {
         launch {
             isLoadingProgressBarLiveData.value = true
-            val response = withContext(Job() + Dispatchers.IO) {
+            val response = withContext(Dispatchers.IO) {
                 try {
-                    service?.getAllWorker()
+                    service.getAllWorker(search, sort, order)
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        toastLiveData.value = true
-                    }
                 }
             }
             if (response is GetWorkerResponse) {
-                val list = response.data?.map {
+                val list = response.data.map {
                     WorkerModel(
-                        it.idWorker.orEmpty(),
+                        it.idWorker,
                         it.image.orEmpty(),
                         it.name.orEmpty(),
                         it.title.orEmpty(),
+                        it.statusJob.orEmpty(),
+                        it.city.orEmpty(),
                         it.skill.orEmpty()
                     )
                 }
                 workerLiveData.value = list
-            } else {
-                isLoadingProgressBarLiveData.value = false
-                toastLiveData.value = true
             }
             isLoadingProgressBarLiveData.value = false
         }

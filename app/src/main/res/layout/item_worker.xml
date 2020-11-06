@@ -48,21 +48,66 @@
 
             <LinearLayout
                 android:id="@+id/linear_skill"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_list_skill"
-                    android:paddingVertical="1dp"
+                    android:id="@+id/tv_skill_1"
+                    android:paddingVertical="3dp"
                     android:paddingHorizontal="5dp"
                     android:layout_margin="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/component_skill"
                     android:gravity="bottom"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/white"
                     android:text="Skill"
                     android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_skill_2"
+                    android:paddingVertical="3dp"
+                    android:paddingHorizontal="5dp"
+                    android:layout_margin="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/component_skill"
+                    android:gravity="bottom"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/white"
+                    android:text="Skill"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/tv_skill_3"
+                    android:paddingVertical="3dp"
+                    android:paddingHorizontal="5dp"
+                    android:layout_margin="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/component_skill"
+                    android:gravity="bottom"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/white"
+                    android:text="Skill"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_skill_plus"
+                    android:paddingVertical="3dp"
+                    android:paddingHorizontal="5dp"
+                    android:layout_margin="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/grey"
+                    android:text="+"
+                    android:textSize="14sp"
                     android:textStyle="normal" />
 
             </LinearLayout>

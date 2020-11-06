@@ -1,5 +1,7 @@
 package com.reihan.hira.hire
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import com.reihan.hira.BaseActivity
 import com.reihan.hira.detailWorker.ProfileWorkerActivity
 import com.reihan.hira.R
 import com.reihan.hira.databinding.ActivityFormHireBinding
+import com.reihan.hira.project.FormProjectActivity
 import com.reihan.hira.utils.api.APIClient
 import com.reihan.hira.utils.api.service.HireApiService
 import com.reihan.hira.utils.api.service.ProjectApiService
@@ -52,6 +55,7 @@ class FormHireActivity : BaseActivity() {
         subscribeLiveData()
 
         val uid = sharedPref.getString(Constants.KEY_ID).toString()
+        Log.d("Checking", uid)
         viewModel.listSpinnerApi(uid)
 
         binding.btnSave.setOnClickListener {
@@ -63,15 +67,13 @@ class FormHireActivity : BaseActivity() {
                 id,
                 selectedSpinner
             )
-
         }
-    }
 
+    }
     private fun subscribeLiveData() {
         viewModel.finishSessionHire.observe(this, Observer {
             if (it) {
                 Toast.makeText(this, "Waiting for Agreement", Toast.LENGTH_SHORT).show()
-                finish()
                 finish()
             } else {
                 val e = Throwable()
@@ -102,6 +104,24 @@ class FormHireActivity : BaseActivity() {
                 }
             }
         })
+        viewModel.isSuccessSpinnerLiveData.observe(this, Observer {
+            if (!it) {
+              dialogToProject()
+            }
+        })
     }
 
+    private fun dialogToProject(){
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Not Project Found")
+            .setMessage("You must have a project")
+            .setPositiveButton("Make Project"){dialog: DialogInterface?, which: Int ->
+                IntentStart<FormProjectActivity>(this)
+            }
+            .setNegativeButton("Not Now"){dialog: DialogInterface?,which: Int ->
+                onBackPressed()
+            }
+            .create()
+        dialog.show()
+    }
 }

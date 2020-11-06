@@ -10,15 +10,18 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.reihan.hira.BaseActivity
 import com.reihan.hira.R
 import com.reihan.hira.databinding.ActivityFormProfileBinding
 import com.reihan.hira.utils.api.APIClient
+import com.reihan.hira.utils.api.model.ProfileModel
 import com.reihan.hira.utils.api.service.ProfileApiService
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
@@ -37,6 +40,7 @@ class FormProfileActivity : BaseActivity() {
     }
 
     companion object {
+        const val CODE_RESULT = 2002
         const val IMAGE_PICK_CODE = 1002
         const val PERMISSION_CODE = 1003
     }
@@ -49,6 +53,27 @@ class FormProfileActivity : BaseActivity() {
         binding.imgProfile.clipToOutline = true
         if (service != null) {
             viewModel.setProfileService(service)
+        }
+        val code = intent.getStringExtra("CODE_EDIT")
+        val data = intent.getParcelableExtra<ProfileModel>("dataProfile")
+
+        if (data != null && code == "EDIT"){
+            Glide.with(this)
+                .load("http://34.229.16.81:8008/uploads/${data.image}")
+                .placeholder(R.drawable.ava)
+                .into(binding.imgProfile)
+            binding.etFullname.setText(data.name)
+            binding.etPosition.setText(data.position)
+            binding.etCompany.setText(data.company)
+            binding.etSector.setText(data.sector)
+            binding.etCity.setText(data.city)
+            binding.etSummary.setText(data.description)
+            binding.etInstagram.setText(data.instagram)
+            binding.etLinkedin.setText(data.linkedin)
+            binding.etWebsite.setText(data.web)
+
+            binding.btnSave.visibility = View.GONE
+            binding.btnSubmit.visibility = View.VISIBLE
         }
 
         binding.imgProfile.clipToOutline = true
@@ -92,8 +117,10 @@ class FormProfileActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         sharedPref = PreferenceHelper(this)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            binding.imgProfile.setImageURI(data?.data)
-            binding.imgProfile.clipToOutline = true
+            binding.imgEditProfile.visibility = View.VISIBLE
+            binding.imgProfile.visibility = View.GONE
+            binding.imgEditProfile.setImageURI(data?.data)
+            binding.imgEditProfile.clipToOutline = true
             val filePath = getPath(this, data?.data)
             val file = File(filePath)
 
@@ -106,7 +133,7 @@ class FormProfileActivity : BaseActivity() {
                 MultipartBody.Part.createFormData("image", file.name, it)
             }
             subscribeLiveData()
-            binding.btnSave.setOnClickListener {
+            binding.btnSubmit.setOnClickListener {
                 val name = createPartFromString(binding.etFullname.text.toString())
                 val company = createPartFromString(binding.etCompany.text.toString())
                 val position = createPartFromString(binding.etPosition.text.toString())
@@ -133,6 +160,39 @@ class FormProfileActivity : BaseActivity() {
                         idAccount
                     )
                 }
+
+            }
+            binding.btnSubmit.setOnClickListener {
+                val name = createPartFromString(binding.etFullname.text.toString())
+                val company = createPartFromString(binding.etCompany.text.toString())
+                val position = createPartFromString(binding.etPosition.text.toString())
+                val sector = createPartFromString(binding.etSector.text.toString())
+                val city = createPartFromString(binding.etCity.text.toString())
+                val description = createPartFromString(binding.etSummary.text.toString())
+                val instagram = createPartFromString(binding.etInstagram.text.toString())
+                val linkedin = createPartFromString(binding.etLinkedin.text.toString())
+                val web = createPartFromString(binding.etWebsite.text.toString())
+                val idAccount =
+                    createPartFromString(sharedPref.getString(Constants.KEY_ID).toString())
+                val data = intent.getParcelableExtra<ProfileModel>("dataProfile")
+
+                if (img != null) {
+                    viewModel.putProfileApi(
+                        data.idRecruiter.toInt(),
+                        name,
+                        company,
+                        position,
+                        sector,
+                        city,
+                        description,
+                        img,
+                        instagram,
+                        linkedin,
+                        web,
+                        idAccount
+                    )
+                }
+
             }
         }
     }
@@ -165,6 +225,7 @@ class FormProfileActivity : BaseActivity() {
             if (it) {
                 Toast.makeText(this@FormProfileActivity, "Success Save Profile", Toast.LENGTH_SHORT)
                     .show()
+                setResult(Activity.RESULT_OK)
                 finish()
             } else {
                 Toast.makeText(this@FormProfileActivity, "Failed Save Profile", Toast.LENGTH_SHORT)

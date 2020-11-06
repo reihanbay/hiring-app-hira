@@ -17,9 +17,12 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.reihan.hira.utils.api.model.ProjectModel
 import com.reihan.hira.utils.sharedpreferences.Constants
 import com.reihan.hira.utils.sharedpreferences.PreferenceHelper
 import okhttp3.MediaType.Companion.toMediaType
@@ -39,7 +42,7 @@ class FormProjectActivity : BaseActivity() {
 
     companion object {
         const val IMAGE_PICK_CODE = 1000
-
+        const val CODE_RESULT = 2002
         const val PERMISSION_CODE = 1001
     }
 
@@ -51,7 +54,19 @@ class FormProjectActivity : BaseActivity() {
         if (service != null) {
             viewModel.setProjectService(service)
         }
-
+        val data = intent.getParcelableExtra<ProjectModel>("DataParcelize")
+        val session = intent.getStringExtra("SESSION")
+        if (session != null && session == "EDIT") {
+            Glide.with(this)
+                .load("http://34.229.16.81:8008/uploads/${data.image}")
+                .placeholder(R.drawable.ava)
+                .into(binding.imgProject)
+            binding.btnEdit.visibility = View.VISIBLE
+            binding.btnSave.visibility = View.GONE
+            binding.etNameProject.setText(data.name)
+            binding.etDeadline.setText(data.deadline)
+            binding.etDescription.setText(data.description)
+        }
         binding.imgProject.clipToOutline = true
         binding.btnUpload.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -93,8 +108,10 @@ class FormProjectActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         sharedPref = PreferenceHelper(this)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            binding.imgProject.setImageURI(data?.data)
-            binding.imgProject.clipToOutline = true
+            binding.imgEditProject.visibility = View.VISIBLE
+            binding.imgProject.visibility = View.GONE
+            binding.imgEditProject.setImageURI(data?.data)
+            binding.imgEditProject.clipToOutline = true
             val filePath = getPath(this, data?.data)
             val file = File(filePath)
 
@@ -118,6 +135,18 @@ class FormProjectActivity : BaseActivity() {
                     createPartFromString(sharedPref.getString(Constants.KEY_ID_RECRUITER).toString())
                 if (img != null) {
                     viewModel.postProjectApi(name, description, deadline, idRecruiter, img)
+                }
+            }
+
+            binding.btnEdit.setOnClickListener {
+                val data = intent.getParcelableExtra<ProjectModel>("DataParcelize")
+                val name = createPartFromString(binding.etNameProject.text.toString())
+                val description = createPartFromString(binding.etDescription.text.toString())
+                val deadline = createPartFromString(binding.etDeadline.text.toString())
+                val idRecruiter =
+                    createPartFromString(sharedPref.getString(Constants.KEY_ID_RECRUITER).toString())
+                if (img != null) {
+                    viewModel.putProjectApi(data.idProject.toInt(), name, description, deadline, idRecruiter, img)
                 }
             }
         }
@@ -151,10 +180,11 @@ class FormProjectActivity : BaseActivity() {
     private fun subscribeLiveData() {
         viewModel.finishedFormLiveData.observe(this@FormProjectActivity, Observer {
             if (it) {
-                Toast.makeText(this@FormProjectActivity, "Success Add Project", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FormProjectActivity, "Success", Toast.LENGTH_SHORT).show()
+                setResult(Activity.RESULT_OK)
                 finish()
             } else {
-                Toast.makeText(this@FormProjectActivity, "Failed Add Project", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FormProjectActivity, "Failed", Toast.LENGTH_SHORT).show()
             }
         })
     }

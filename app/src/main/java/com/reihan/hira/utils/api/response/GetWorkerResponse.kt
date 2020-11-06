@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GetWorkerResponse(val success: Boolean?, val message: String?, val data: List<Worker>) {
     data class Worker(
-        @SerializedName("idWorker") val idWorker: String?,
+        @SerializedName("idWorker") val idWorker: Int?,
         @SerializedName("image") val image: String?,
         @SerializedName("nameWorker") val name: String?,
         @SerializedName("jobTitle") val title: String?,

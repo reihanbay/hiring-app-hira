@@ -170,20 +170,28 @@
                     android:textColor="#888888"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
                 <TextView
-                    android:id="@+id/tv_content_skill_profile"
+                    android:id="@+id/tv_skill"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:text="empty"
-                    android:textSize="16sp" />
-
-
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:text="Haven't Skill"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_2"
+                    android:fontFamily="@font/open_sans_semibolditalic"
+                     />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_skill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="320dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="32dp"
                     android:background="@drawable/et_rounded"
@@ -197,12 +205,13 @@
                         app:tabBackground="@color/transparent"
                         app:tabIndicatorColor="@color/colorPrimary"
                         app:tabIndicatorHeight="3dp"
-                        app:tabTextColor="@color/cardview_shadow_start_color" />
+                        app:tabTextColor="@color/colorPrimary" />
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/view_pager"
+                        android:paddingBottom="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
             <ProgressBar

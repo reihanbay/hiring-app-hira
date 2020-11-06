@@ -29,7 +29,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         sharedPref = PreferenceHelper(this)
         coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
         val serviceAccount = APIClient.getApiClientToken(this)?.create(AccountApiService::class.java)
-        val serviceCheckData = APIClient.getApiClientToken(this)?.create(ProfileApiService::class.java)
         presenter = LoginPresenter(coroutineScope, serviceAccount)
 
         initListener()
@@ -68,6 +67,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         }
         binding.btnLogin.setOnClickListener {
             presenter?.callLoginApi()
+            intentToHome()
         }
     }
 

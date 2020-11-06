@@ -1,5 +1,9 @@
 package com.reihan.hira.utils.api.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ProfileModel (
     val idRecruiter: String,
     val name: String,
@@ -13,4 +17,4 @@ data class ProfileModel (
     val linkedin: String,
     val web: String,
     val idAccount: String
-)
+) : Parcelable
