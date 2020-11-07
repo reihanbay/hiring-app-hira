@@ -83,7 +83,6 @@ class AppIntroScreen : BaseActivity(), View.OnClickListener {
             override fun onPageSelected(position: Int) {
 
             }
-
         })
         next.setOnClickListener(this)
         skip.setOnClickListener(this)
@@ -96,12 +95,7 @@ class AppIntroScreen : BaseActivity(), View.OnClickListener {
                     next.text = getString(R.string.start)
                     Intent<LoginActivity>(this)
                     startActivity(start)
-                    Toast.makeText(
-                        this@AppIntroScreen,
-                        getString(R.string.skip_pressed),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // Proceed to Main/Home Activity of the App
+                    finish()
                 } else {
                     next.text = getString(R.string.next)
                     viewPager.currentItem = currentTab
@@ -116,12 +110,7 @@ class AppIntroScreen : BaseActivity(), View.OnClickListener {
                     skip.text = getString(R.string.skip)
                     Intent<LoginActivity>(this)
                     startActivity(start)
-                    Toast.makeText(
-                        this@AppIntroScreen,
-                        getString(R.string.skip_pressed),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // Proceed to Main/Home Activity of the App
+                    finish()
                 }
             }
         }

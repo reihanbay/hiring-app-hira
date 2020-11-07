@@ -57,6 +57,7 @@ class Sign_up : BaseActivity() {
 
 
     override fun onDestroy() {
+        coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
         coroutineScope.cancel()
         super.onDestroy()
     }
