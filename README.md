@@ -20,7 +20,7 @@ This is a repository of Peworld Hire Job for Company or HeadHunter. It is build 
 
 
 #### Worker & Hire Transaction
-<img src="Screenshot/WorkerHire.jpg" width="720">
+<img src="Screenshot/WorkerHire.png" width="720">
 
 
 #### Profile & Edit Profile
